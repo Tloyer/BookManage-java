@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="book.mapper.UserMapper">
+    <select id="getList" resultType="book.model.UserModelForList">
+        SELECT u.user_id, u.user_name, ur.role_id, r.role_name
+        FROM user u
+        LEFT JOIN user_role ur ON u.user_id=ur.user_id
+        LEFT JOIN role r ON ur.role_id=r.role_id
+    </select>
+</mapper>
