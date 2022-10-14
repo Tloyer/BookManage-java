@@ -12,7 +12,7 @@ spring:
     add-mappings: false
   # 激活哪个环境
   profiles:
-    active: test
+    active: gauss
   # 日期格式化
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss

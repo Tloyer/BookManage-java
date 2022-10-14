@@ -3,8 +3,8 @@
 <mapper namespace="book.mapper.UserMapper">
     <select id="getList" resultType="book.model.UserModelForList">
         SELECT u.user_id, u.user_name, ur.role_id, r.role_name
-        FROM user u
+        FROM u_user u
         LEFT JOIN user_role ur ON u.user_id=ur.user_id
-        LEFT JOIN role r ON ur.role_id=r.role_id
+        LEFT JOIN r_role r ON ur.role_id=r.role_id
     </select>
 </mapper>

@@ -61,6 +61,14 @@
             <scope>runtime</scope>
         </dependency>
 
+        <!--高斯数据库驱动-->
+        <dependency>
+            <groupId>com.huaweicloud.dws</groupId>
+            <artifactId>huaweicloud-dws-jdbc</artifactId>
+            <version>8.1.3.100</version>
+            <scope>runtime</scope>
+        </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
@@ -123,7 +131,7 @@
     </dependencies>
 
     <build>
-        <finalName>DND</finalName>
+        <finalName>book</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>

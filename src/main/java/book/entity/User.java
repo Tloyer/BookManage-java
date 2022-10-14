@@ -10,7 +10,7 @@ import java.io.Serializable;
  * 2022/10/12 15:29
  */
 @Data
-@TableName("user")
+@TableName("u_user")
 public class User implements Serializable {
     private static final long serialVersionUID = 1L;
     @TableId(value = "user_id", type = IdType.AUTO)
