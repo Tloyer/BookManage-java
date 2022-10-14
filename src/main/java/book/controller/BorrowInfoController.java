@@ -16,7 +16,7 @@ import javax.servlet.http.HttpSession;
  * 2022/10/13 21:42
  */
 @RestController
-@RequestMapping("/book/borrow")
+@RequestMapping("/borrow")
 public class BorrowInfoController {
     //分页查询所有书
     @PostMapping("/list")

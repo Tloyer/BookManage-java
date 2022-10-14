@@ -1,6 +1,7 @@
 package book.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
@@ -18,6 +19,8 @@ public class Book {
 
     private String bookName;//书名
     private String bookAuthor;//作者
+
+    @TableField("isbn")
     private String ISBN;//ISBN
     private Integer stock;//库存
 }

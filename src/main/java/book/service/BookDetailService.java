@@ -1,7 +1,6 @@
 package book.service;
 
 import book.entity.BookDetail;
-import book.entity.UserLog;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
@@ -10,4 +9,9 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface BookDetailService extends IService<BookDetail> {
 
+    void add(BookDetail reqData);
+
+    BookDetail getBookDetail(Integer id);
+
+    BookDetail updateBookDetail(BookDetail reqData);
 }

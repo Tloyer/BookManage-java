@@ -16,6 +16,7 @@ public class BookDetail {
     @TableId(value = "book_id", type = IdType.AUTO)
     private Integer bookId;
 
+    private String ISBN;
     private String bookName;//书名
     private String bookAuthor;//作者
     private String publisher;
