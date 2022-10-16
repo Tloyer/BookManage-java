@@ -4,7 +4,6 @@ import book.entity.BookDetail;
 import book.exception.BasicException;
 import book.mapper.BookDetailMapper;
 import book.service.BookDetailService;
-import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;

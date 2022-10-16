@@ -42,6 +42,7 @@ public class BookDetailController {
         return ResultBody.success("修改成功", bookDetail);
     }
 
+    //查询一本书的detail
     @GetMapping("/{Id}")
     public ResultBody getDetail(@PathVariable("Id") Integer Id) {
         UserUtils.checkPrivilege(Privilege.PRI_READ, "用户无权限查看数据");

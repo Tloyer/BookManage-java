@@ -1,12 +1,12 @@
 package book.controller;
 
-import book.entity.Book;
-import book.entity.BookDetail;
+import book.entity.BorrowInfo;
 import book.entity.Privilege;
+import book.service.BorrowInfoService;
 import book.utils.ResultBody;
 import book.utils.UserUtils;
 import book.vo.PageRspData;
-import org.springframework.validation.annotation.Validated;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
@@ -18,37 +18,37 @@ import javax.servlet.http.HttpSession;
 @RestController
 @RequestMapping("/borrow")
 public class BorrowInfoController {
-    //分页查询所有书
+
+    @Autowired
+    private BorrowInfoService borrowInfoService;
+
+    //分页查询所有借书信息
     @PostMapping("/list")
     public ResultBody listByPage(@RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
                                  @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize) {
         UserUtils.checkPrivilege(Privilege.PRI_READ, "用户无权限查看数据");
-        PageRspData<Book> pageRspData = null;//查数据
-
-        return ResultBody.success("查询成功");
+        PageRspData<BorrowInfo> pageRspData = borrowInfoService.listByPage(pageNum, pageSize);
+        return ResultBody.success("查询成功", pageRspData);
     }
 
-    //增加一本书的detail
-    @PostMapping("/detail/add")
-    public ResultBody addDetail(@Validated @RequestBody BookDetail reqData) {
-        UserUtils.checkPrivilege(Privilege.PRI_EDIT, "用户无权限删除数据");
-
-        return ResultBody.success("增加成功");
+    //根据条件分页查询
+    @PostMapping("/search")
+    public ResultBody searchByPage(@RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
+                                   @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize,
+                                   @RequestParam(value = "userName") String userName,
+                                   @RequestParam(value = "bookName") String bookName) {
+        UserUtils.checkPrivilege(Privilege.PRI_READ, "用户无权限查看数据");
+        PageRspData<BorrowInfo> pageRspData = borrowInfoService.searchByPage(pageNum, pageSize, userName, bookName);
+        return ResultBody.success("查询成功", pageRspData);
     }
 
-    //删除一本书的detail
-    @DeleteMapping("/detail/{Id}")
-    public ResultBody deleteDetail(@PathVariable("Id") Integer Id, HttpSession session) {
-        UserUtils.checkPrivilege(Privilege.PRI_EDIT, "用户无权限删除数据");
+    //删除一个借书信息
+    //TODO:删除借书信息时库存自动+1
+    @DeleteMapping
+    public ResultBody deleteDetail(@RequestParam(value = "userId") Integer userId,
+                                   @RequestParam(value = "bookId") Integer bookId) {
+        UserUtils.checkPrivilege(Privilege.PRI_EDIT, "用户无权限修改数据");
 
         return ResultBody.success("删除成功");
-    }
-
-    //修改一本书的detail
-    @PutMapping("/detail/edit")
-    public ResultBody editDetail(@Validated @RequestBody BookDetail reqData) {
-        UserUtils.checkPrivilege(Privilege.PRI_EDIT, "用户无权限修改试验信息");
-
-        return ResultBody.success("修改成功");
     }
 }

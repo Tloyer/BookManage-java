@@ -19,5 +19,5 @@ public interface BookService extends IService<Book> {
 
     void borrowBook(Integer id);
 
-    PageRspData<Book> searchByPage(Integer pageNum, Integer pageSize, String author, String bookName);
+    PageRspData<Book> searchByPage(Integer pageNum, Integer pageSize, String bookAuthor, String bookName);
 }

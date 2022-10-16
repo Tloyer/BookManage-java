@@ -1,7 +1,9 @@
 package book.service;
 
+import book.entity.Book;
 import book.entity.BorrowInfo;
 import book.entity.UserLog;
+import book.vo.PageRspData;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
@@ -10,4 +12,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface BorrowInfoService extends IService<BorrowInfo> {
 
+    PageRspData<BorrowInfo> listByPage(Integer pageNum, Integer pageSize);
+
+    PageRspData<BorrowInfo> searchByPage(Integer pageNum, Integer pageSize, String userName, String bookName);
 }

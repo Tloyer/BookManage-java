@@ -5,10 +5,8 @@ import book.exception.BasicException;
 import book.mapper.BookMapper;
 import book.service.BookService;
 import book.vo.PageRspData;
-import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -26,7 +24,7 @@ public class BookServiceImpl extends ServiceImpl<BookMapper, Book> implements Bo
 
     @Override
     public PageRspData<Book> listByPage(Integer pageNum, Integer pageSize) {
-        return pageQuery(pageNum, pageSize, null);
+        return pageQuery(pageNum, pageSize);
     }
 
     @Override
@@ -49,16 +47,18 @@ public class BookServiceImpl extends ServiceImpl<BookMapper, Book> implements Bo
     }
 
     @Override
-    public PageRspData<Book> search(String bookAuthor,String bookName) {
-        LambdaQueryWrapper<Book> wrapper = Wrappers.lambdaQuery();
-        List<Book> list = baseMapper.searchB
-        return null;
+    public PageRspData<Book> searchByPage(Integer pageNum, Integer pageSize, String bookAuthor, String bookName) {
+        List<Book> list = baseMapper.searchByPage(pageNum, pageSize, bookAuthor, bookName);
+        if (Objects.isNull(list)) {
+            throw new BasicException(400, "查询失败");
+        }
+        return PageRspData.of(list, pageNum, list.size());
     }
 
-    private PageRspData<Book> pageQuery(Integer pageNum, Integer pageSize, Wrapper<Book> wrapper) {
+    private PageRspData<Book> pageQuery(Integer pageNum, Integer pageSize) {
         IPage<Book> page = new Page<>(pageNum, pageSize);
         // 分页
-        page = this.baseMapper.selectPage(page, wrapper);
+        page = this.baseMapper.selectPage(page, null);
         // 构造结果
         List<Book> records = page.getRecords();
         return PageRspData.of(records, page.getTotal(), page.getPages());

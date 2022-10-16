@@ -5,15 +5,15 @@
         select * from book
     </select>
 
-    <resultMap id="bookMap" type="book.entity.Book">
-        <result column="book_id" property="bookId"></result>
-        <result column="book_name" property="bookName"></result>
-        <result column="book_author" property="bookAuthor"></result>
-        <result column="isbn" property="ISBN"></result>
-        <result column="stock" property="stock"></result>
+    <resultMap id="bookResult" type="book.entity.Book">
+        <result column="book_id" property="bookId"/>
+        <result column="book_name" property="bookName"/>
+        <result column="book_author" property="bookAuthor"/>
+        <result column="isbn" property="ISBN"/>
+        <result column="stock" property="stock"/>
     </resultMap>
 
-    <select id="searchBook" resultType="bookMap">
+    <select id="searchByPage" resultMap="bookResult">
         select * from book where book_name=#{bookName} and book_author=#{bookAuthor}
     </select>
 

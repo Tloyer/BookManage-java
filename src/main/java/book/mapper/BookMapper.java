@@ -1,7 +1,6 @@
 package book.mapper;
 
 import book.entity.Book;
-import book.model.UserModelForList;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -13,4 +12,7 @@ import java.util.List;
  */
 public interface BookMapper extends BaseMapper<Book> {
     Boolean borrowBook(@Param("Id") Integer Id);
+
+    List<Book> searchByPage(@Param("pageNum") Integer pageNum, @Param("pageSize") Integer pageSize,
+                            @Param("bookAuthor") String bookAuthor, @Param("bookName") String bookName);
 }
