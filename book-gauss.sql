@@ -27,8 +27,8 @@ create table SPRING_SESSION_ATTRIBUTES
     ATTRIBUTE_BYTES    bytea not null
 );
 
-drop table spring_session;
-drop table spring_session_attributes;
+--drop table spring_session;
+--drop table spring_session_attributes;
 
 CREATE SEQUENCE sq_book_id
  START 1
@@ -64,7 +64,7 @@ create table privilege
     privilege_name varchar(50)       null
 );
 
-create table role
+create table r_role
 (
     role_id   tinyint null,
     role_name varchar(50) null
@@ -145,3 +145,14 @@ values
     (1, 1, 1),
     (2, 1, 2),
     (3, 2, 1);
+
+insert into u_user
+values
+    (1, 'admin', '$2a$10$M9n/9O5qXuqtjup4jm3Oz.qj393pQ2eR/fS6/Amkf/MqbxgmjE9/K'),
+    (2, 'bob', '$2a$10$FRuiYpdeF.AY98Q0GVJuE.hnYWc/a0K7aJN1LGXDHc.0ewyUSc7I6');
+
+
+insert into privilege
+values
+    (1, '查看数据'),
+    (2, '增删改数据');

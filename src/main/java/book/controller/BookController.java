@@ -36,8 +36,8 @@ public class BookController {
     @PostMapping("/search")
     public ResultBody searchByPage(@RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
                                    @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize,
-                                   @RequestParam(value = "bookAuthor") String bookAuthor,
-                                   @RequestParam(value = "bookName") String bookName) {
+                                   @RequestParam(value = "bookAuthor",defaultValue = "") String bookAuthor,
+                                   @RequestParam(value = "bookName",defaultValue = "") String bookName) {
         UserUtils.checkPrivilege(Privilege.PRI_READ, "用户无权限查看数据");
         PageRspData<Book> pageRspData = bookService.searchByPage(pageNum, pageSize, bookAuthor, bookName);
         return ResultBody.success("查询成功", pageRspData);

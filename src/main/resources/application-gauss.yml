@@ -2,6 +2,8 @@ spring:
   #  配置数据源
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://192.168.231.131:26000/book?currentSchema=book
+    # url: jdbc:postgresql://192.168.231.131:26000/book?currentSchema=book
+    url: jdbc:postgresql://124.71.227.20:7654/book?currentSchema=book
     username: fantastic
-    password: SIsi0521
+    password: SIsi04200521
+    # password: SIsi0521
