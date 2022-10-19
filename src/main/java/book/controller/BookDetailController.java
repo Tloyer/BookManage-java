@@ -8,6 +8,7 @@ import book.utils.UserUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
 
@@ -19,7 +20,7 @@ public class BookDetailController {
     private BookDetailService bookDetailService;
 
     //增加一本书的detail
-    @PostMapping("/add")
+    @PutMapping
     public ResultBody addDetail(@Validated @RequestBody BookDetail reqData) {
         UserUtils.checkPrivilege(Privilege.PRI_EDIT, "用户无权限修改数据");
         bookDetailService.add(reqData);
@@ -35,7 +36,7 @@ public class BookDetailController {
     }
 
     //修改一本书的detail
-    @PutMapping("/edit")
+    @PostMapping("/edit")
     public ResultBody editDetail(@Validated @RequestBody BookDetail reqData) {
         UserUtils.checkPrivilege(Privilege.PRI_EDIT, "用户无权修改数据");
         BookDetail bookDetail = bookDetailService.updateBookDetail(reqData);
@@ -48,5 +49,14 @@ public class BookDetailController {
         UserUtils.checkPrivilege(Privilege.PRI_READ, "用户无权限查看数据");
         BookDetail bookDetail = bookDetailService.getBookDetail(Id);
         return ResultBody.success("查询成功", bookDetail);
+    }
+
+    @PostMapping("/upload")
+    public ResultBody upload(@RequestPart MultipartFile file, @RequestParam("path") String path,
+                             @RequestParam("id") Integer id, @RequestParam("image") String image) {
+        UserUtils.checkPrivilege(Privilege.PRI_EDIT, "当前用户无权修改数据");
+        bookDetailService.deleteImage(image);
+        String fullPath = bookDetailService.upload(file, path, id);
+        return ResultBody.success("ok", fullPath);
     }
 }

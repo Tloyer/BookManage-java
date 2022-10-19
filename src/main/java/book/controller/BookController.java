@@ -5,7 +5,9 @@ import book.entity.Privilege;
 import book.service.BookService;
 import book.utils.ResultBody;
 import book.utils.UserUtils;
+import book.vo.BookSearchReqData;
 import book.vo.PageRspData;
+import cn.hutool.core.util.ObjectUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -23,23 +25,18 @@ public class BookController {
     @Autowired
     private BookService bookService;
 
-    //分页查询所有书
-    @PostMapping("/list")
-    public ResultBody listByPage(@RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
-                                 @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize) {
-        UserUtils.checkPrivilege(Privilege.PRI_READ, "用户无权限查看数据");
-        PageRspData<Book> pageRspData = bookService.listByPage(pageNum, pageSize);
-        return ResultBody.success("查询成功", pageRspData);
-    }
-
     //根据条件分页查询
     @PostMapping("/search")
     public ResultBody searchByPage(@RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
                                    @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize,
-                                   @RequestParam(value = "bookAuthor",defaultValue = "") String bookAuthor,
-                                   @RequestParam(value = "bookName",defaultValue = "") String bookName) {
+                                   @RequestBody BookSearchReqData query) {
         UserUtils.checkPrivilege(Privilege.PRI_READ, "用户无权限查看数据");
-        PageRspData<Book> pageRspData = bookService.searchByPage(pageNum, pageSize, bookAuthor, bookName);
+        PageRspData<Book> pageRspData;
+        if (ObjectUtil.isNotEmpty(query)){
+            pageRspData = bookService.listByPage(pageNum, pageSize);
+        } else {
+            pageRspData = bookService.searchByPage(pageNum, pageSize, query);
+        }
         return ResultBody.success("查询成功", pageRspData);
     }
 

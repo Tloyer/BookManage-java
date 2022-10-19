@@ -1,8 +1,10 @@
 package book.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 /**
@@ -13,14 +15,27 @@ import lombok.Data;
 @TableName("book_detail")
 public class BookDetail {
     private static final long serialVersionUID = 1L;
-    @TableId(value = "book_id", type = IdType.AUTO)
+    @TableId(value = "book_id")
     private Integer bookId;
 
+    @TableField(exist = false)
+    @JsonProperty("ISBN")
     private String ISBN;
-    private String bookName;//书名
-    private String bookAuthor;//作者
+
+    //书名
+    private String bookName;
+
+    //作者
+    private String bookAuthor;
+
     private String publisher;
-    private String time;//yyyy，如2017,
-    private String image;//封面字符串
-    private String introduction;//书籍简介
+
+    //yyyy，如2017
+    private String time;
+
+    //封面字符串
+    private String image;
+
+    //书籍简介
+    private String introduction;
 }

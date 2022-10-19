@@ -4,6 +4,7 @@ import book.entity.Book;
 import book.exception.BasicException;
 import book.mapper.BookMapper;
 import book.service.BookService;
+import book.vo.BookSearchReqData;
 import book.vo.PageRspData;
 import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -48,7 +49,9 @@ public class BookServiceImpl extends ServiceImpl<BookMapper, Book> implements Bo
     }
 
     @Override
-    public PageRspData<Book> searchByPage(Integer pageNum, Integer pageSize, String bookAuthor, String bookName) {
+    public PageRspData<Book> searchByPage(Integer pageNum, Integer pageSize, BookSearchReqData query) {
+        String bookName = query.getBookName();
+        String bookAuthor = query.getBookAuthor();
         List<Book> list = baseMapper.searchByPage(pageNum, pageSize, bookAuthor, bookName);
         if (Objects.isNull(list)) {
             throw new BasicException(400, "查询失败");
