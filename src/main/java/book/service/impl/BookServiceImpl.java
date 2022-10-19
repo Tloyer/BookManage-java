@@ -5,6 +5,7 @@ import book.exception.BasicException;
 import book.mapper.BookMapper;
 import book.service.BookService;
 import book.vo.PageRspData;
+import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
@@ -32,7 +33,7 @@ public class BookServiceImpl extends ServiceImpl<BookMapper, Book> implements Bo
         LambdaQueryWrapper<Book> wrapper = Wrappers.lambdaQuery();
         wrapper.eq(Book::getISBN, reqData.getISBN());
         Book book = this.getOne(wrapper);
-        if (Objects.isNull(book)) {
+        if (ObjectUtil.isNotNull(book)) {
             throw new BasicException(400, "图书信息已存在");
         }
         this.save(reqData);

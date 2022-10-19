@@ -38,7 +38,9 @@ public class UserUtils {
     }
 
     public static boolean isLoggedIn(HttpSession session) {
-        if (session.getAttribute(sessionStatusKey) == null) return false;
+        if (session.getAttribute(sessionStatusKey) == null) {
+            return false;
+        }
         return true;
     }
     public static boolean isLoggedIn() {
