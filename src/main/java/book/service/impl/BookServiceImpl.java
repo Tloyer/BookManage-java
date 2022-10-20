@@ -13,6 +13,7 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Objects;
@@ -30,25 +31,6 @@ public class BookServiceImpl extends ServiceImpl<BookMapper, Book> implements Bo
     }
 
     @Override
-    public void add(Book reqData) {
-        LambdaQueryWrapper<Book> wrapper = Wrappers.lambdaQuery();
-        wrapper.eq(Book::getISBN, reqData.getISBN());
-        Book book = this.getOne(wrapper);
-        if (ObjectUtil.isNotNull(book)) {
-            throw new BasicException(400, "图书信息已存在");
-        }
-        this.save(reqData);
-    }
-
-    @Override
-    public void borrowBook(Integer id) {
-        Boolean flag = baseMapper.borrowBook(id);
-        if (!flag) {
-            throw new BasicException(400, "借书失败");
-        }
-    }
-
-    @Override
     public PageRspData<Book> searchByPage(Integer pageNum, Integer pageSize, BookSearchReqData query) {
         String bookName = query.getBookName();
         String bookAuthor = query.getBookAuthor();
@@ -59,6 +41,28 @@ public class BookServiceImpl extends ServiceImpl<BookMapper, Book> implements Bo
         return PageRspData.of(list, pageNum, list.size());
     }
 
+    @Override
+    @Transactional
+    public boolean add(Book reqData) {
+        LambdaQueryWrapper<Book> wrapper = Wrappers.lambdaQuery();
+        wrapper.eq(Book::getISBN, reqData.getISBN());
+        Book book = this.getOne(wrapper);
+        if (ObjectUtil.isNotNull(book)) {
+            throw new BasicException(400, "图书信息已存在");
+        }
+        return this.save(reqData);
+    }
+
+    @Override
+    @Transactional
+    public boolean updateBook(Book reqData) {
+        Book book = this.getById(reqData.getBookId());
+        if (Objects.isNull(book)) {
+            throw new BasicException(400, "图书不存在");
+        }
+        return this.updateById(reqData);
+    }
+
     private PageRspData<Book> pageQuery(Integer pageNum, Integer pageSize) {
         IPage<Book> page = new Page<>(pageNum, pageSize);
         // 分页
@@ -66,5 +70,13 @@ public class BookServiceImpl extends ServiceImpl<BookMapper, Book> implements Bo
         // 构造结果
         List<Book> records = page.getRecords();
         return PageRspData.of(records, page.getTotal(), page.getPages());
+    }
+
+    @Override
+    public void borrowBook(Integer id) {
+        Boolean flag = baseMapper.borrowBook(id);
+        if (!flag) {
+            throw new BasicException(400, "借书失败");
+        }
     }
 }

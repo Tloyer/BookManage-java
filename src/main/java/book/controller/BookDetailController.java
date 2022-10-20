@@ -22,6 +22,16 @@ public class BookDetailController {
     private BookDetailService bookDetailService;
 
     /**
+     * 查询一本书的detail
+     */
+    @GetMapping("/{id}")
+    public ResultBody getDetail(@PathVariable("id") Integer id) {
+        UserUtils.checkPrivilege(Privilege.PRI_READ, "用户无权限查看数据");
+        BookDetail bookDetail = bookDetailService.getBookDetail(id);
+        return ResultBody.success("查询成功", bookDetail);
+    }
+
+    /**
      * 增加一本书的detail
      */
     @PutMapping
@@ -61,22 +71,12 @@ public class BookDetailController {
     }
 
     /**
-     * 查询一本书的detail
-     */
-    @GetMapping("/{id}")
-    public ResultBody getDetail(@PathVariable("id") Integer id) {
-        UserUtils.checkPrivilege(Privilege.PRI_READ, "用户无权查看数据");
-        BookDetail bookDetail = bookDetailService.getBookDetail(id);
-        return ResultBody.success("查询成功", bookDetail);
-    }
-
-    /**
      * 上传书的封面
      */
     @PostMapping("/upload")
     public ResultBody upload(@RequestPart MultipartFile file, @RequestParam("path") String path,
                              @RequestParam("id") Integer id, @RequestParam("image") String image) {
-        UserUtils.checkPrivilege(Privilege.PRI_EDIT, "用户无权修改数据");
+        UserUtils.checkPrivilege(Privilege.PRI_EDIT, "用户无权限修改数据");
         bookDetailService.deleteImage(image);
         String fullPath = bookDetailService.upload(file, path, id);
         return ResultBody.success("ok", fullPath);

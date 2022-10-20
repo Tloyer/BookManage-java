@@ -2,6 +2,7 @@ package book.controller;
 
 import book.entity.BorrowInfo;
 import book.entity.Privilege;
+import book.service.BookService;
 import book.service.BorrowInfoService;
 import book.utils.ResultBody;
 import book.utils.UserUtils;
@@ -21,6 +22,9 @@ public class BorrowInfoController {
 
     @Autowired
     private BorrowInfoService borrowInfoService;
+
+    @Autowired
+    private BookService bookService;
 
     //分页查询所有借书信息
     @PostMapping("/list")
@@ -50,5 +54,13 @@ public class BorrowInfoController {
         UserUtils.checkPrivilege(Privilege.PRI_EDIT, "用户无权限修改数据");
 
         return ResultBody.success("删除成功");
+    }
+
+    //借一本书
+    @GetMapping("/{id}")
+    public ResultBody borrowBook(@PathVariable("id") Integer id) {
+        UserUtils.checkPrivilege(Privilege.PRI_EDIT, "用户无权限修改数据");
+        bookService.borrowBook(id);
+        return ResultBody.success("借书成功");
     }
 }

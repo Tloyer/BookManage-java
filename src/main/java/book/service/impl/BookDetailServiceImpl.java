@@ -25,6 +25,17 @@ import java.util.Objects;
 public class BookDetailServiceImpl extends ServiceImpl<BookDetailMapper, BookDetail> implements BookDetailService {
 
     @Override
+    public BookDetail getBookDetail(Integer id) {
+        LambdaQueryWrapper<BookDetail> wrapper = Wrappers.lambdaQuery();
+        wrapper.eq(BookDetail::getBookId, id);
+        BookDetail bookDetail = this.getOne(wrapper);
+        if (Objects.isNull(bookDetail)) {
+            throw new BasicException(400, "图书详情信息不存在");
+        }
+        return bookDetail;
+    }
+
+    @Override
     @Transactional
     public boolean add(BookDetail reqData) {
         LambdaQueryWrapper<BookDetail> wrapper = Wrappers.lambdaQuery();
@@ -44,17 +55,6 @@ public class BookDetailServiceImpl extends ServiceImpl<BookDetailMapper, BookDet
             throw new BasicException(400, "图书详情信息不存在");
         }
         return this.updateById(reqData);
-    }
-
-    @Override
-    public BookDetail getBookDetail(Integer id) {
-        LambdaQueryWrapper<BookDetail> wrapper = Wrappers.lambdaQuery();
-        wrapper.eq(BookDetail::getBookId, id);
-        BookDetail bookDetail = this.getOne(wrapper);
-        if (Objects.isNull(bookDetail)) {
-            throw new BasicException(400, "图书详情信息不存在");
-        }
-        return bookDetail;
     }
 
     @Override

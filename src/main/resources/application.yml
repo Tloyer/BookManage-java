@@ -18,7 +18,7 @@ spring:
     date-format: yyyy-MM-dd HH:mm:ss
     timezone: GMT+8
 server:
-  port: 8080
+  port: 8088
 
 mybatis-plus:
   mapper-locations: classpath*:/mapper/**/*Mapper.xml
