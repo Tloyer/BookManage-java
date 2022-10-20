@@ -10,11 +10,11 @@ import org.springframework.web.multipart.MultipartFile;
  */
 public interface BookDetailService extends IService<BookDetail> {
 
-    void add(BookDetail reqData);
+    boolean add(BookDetail reqData);
 
     BookDetail getBookDetail(Integer id);
 
-    BookDetail updateBookDetail(BookDetail reqData);
+    boolean updateBookDetail(BookDetail reqData);
 
     void deleteImage(String image);
 

@@ -26,27 +26,24 @@ public class BookDetailServiceImpl extends ServiceImpl<BookDetailMapper, BookDet
 
     @Override
     @Transactional
-    public void add(BookDetail reqData) {
+    public boolean add(BookDetail reqData) {
         LambdaQueryWrapper<BookDetail> wrapper = Wrappers.lambdaQuery();
         wrapper.eq(BookDetail::getBookId, reqData.getBookId());
         BookDetail bookDetail = this.getOne(wrapper);
         if (ObjectUtil.isNotNull(bookDetail)) {
             throw new BasicException(400, "图书详情信息已存在");
         }
-        this.save(reqData);
+        return this.save(reqData);
     }
 
     @Override
     @Transactional
-    public BookDetail updateBookDetail(BookDetail reqData) {
+    public boolean updateBookDetail(BookDetail reqData) {
         BookDetail bookDetail = this.getById(reqData.getBookId());
         if (Objects.isNull(bookDetail)) {
             throw new BasicException(400, "图书详情信息不存在");
         }
-        bookDetail.setIntroduction(reqData.getIntroduction());
-        bookDetail.setImage(reqData.getImage());
-        this.updateById(bookDetail);
-        return bookDetail;
+        return this.updateById(reqData);
     }
 
     @Override
@@ -69,13 +66,12 @@ public class BookDetailServiceImpl extends ServiceImpl<BookDetailMapper, BookDet
     }
 
     @Override
+    @Transactional
     public String upload(MultipartFile file, String path, Integer id) {
         String fullPath = UploadUtils.uploadPicture(file, path);
         System.out.println("图片上传:" + fullPath);
-        BookDetail bookDetail = null;
-        if (id == null || id == 0) {
-
-        } else {
+        BookDetail bookDetail;
+        if (id != null && id != 0) {
             bookDetail = this.getById(id);
             if (bookDetail == null) {
                 throw new BasicException(HttpStatus.BAD_REQUEST.value(), "参数错误，不存在！");
@@ -83,8 +79,6 @@ public class BookDetailServiceImpl extends ServiceImpl<BookDetailMapper, BookDet
             bookDetail.setImage(fullPath);
             this.updateById(bookDetail);
         }
-
         return fullPath;
     }
 }
-
