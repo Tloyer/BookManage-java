@@ -1,11 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="book.mapper.BookMapper">
-    <select id="borrowBook" resultType="java.lang.Boolean">
-        select *
-        from book
-    </select>
-
     <resultMap id="bookResult" type="book.entity.Book">
         <result column="book_id" property="bookId"/>
         <result column="book_name" property="bookName"/>
@@ -18,4 +13,8 @@
         select *
         from select_book_func(#{pageNum}, #{pageSize}, #{bookName}, #{bookAuthor});
     </select>
+
+    <update id="subOne">
+        update book set stock=stock-1 where book_id=#{bookId};
+    </update>
 </mapper>

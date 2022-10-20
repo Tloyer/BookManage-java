@@ -19,5 +19,5 @@ public interface BookService extends IService<Book> {
 
     boolean updateBook(Book reqData);
 
-    void borrowBook(Integer id);
+    boolean subOne(Integer bookId);
 }

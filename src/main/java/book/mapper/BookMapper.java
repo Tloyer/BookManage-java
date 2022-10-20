@@ -11,8 +11,8 @@ import java.util.List;
  * 2022/10/13 15:32
  */
 public interface BookMapper extends BaseMapper<Book> {
-    Boolean borrowBook(@Param("Id") Integer Id);
-
     List<Book> searchByPage(@Param("pageNum") Integer pageNum, @Param("pageSize") Integer pageSize,
                             @Param("bookAuthor") String bookAuthor, @Param("bookName") String bookName);
+
+    boolean subOne(@Param("bookId") Integer bookId);
 }

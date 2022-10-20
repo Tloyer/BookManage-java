@@ -1,6 +1,7 @@
 create database book owner fantastic;
 
-\c book
+\
+c book
 
 create schema book owner fantastic;
 
@@ -22,18 +23,23 @@ create table SPRING_SESSION
 
 create table SPRING_SESSION_ATTRIBUTES
 (
-    SESSION_PRIMARY_ID char(36)      not null primary key,
-    ATTRIBUTE_NAME     varchar(200)  not null,
-    ATTRIBUTE_BYTES    bytea not null
+    SESSION_PRIMARY_ID char(36)     not null primary key,
+    ATTRIBUTE_NAME     varchar(200) not null,
+    ATTRIBUTE_BYTES bytea not null
 );
 
---drop table spring_session;
---drop table spring_session_attributes;
+--
+drop table spring_session;
+--
+drop table spring_session_attributes;
 
-CREATE SEQUENCE sq_book_id
- START 1
+CREATE
+SEQUENCE sq_book_id
+ START
+1
  INCREMENT 1
- CACHE 20;
+ CACHE
+20;
 
 create table book
 (
@@ -60,19 +66,19 @@ create table book_detail
 
 create table privilege
 (
-    privilege_id   smallint null,
-    privilege_name varchar(50)       null
+    privilege_id   smallint    null,
+    privilege_name varchar(50) null
 );
 
 create table r_role
 (
-    role_id   tinyint null,
+    role_id   tinyint     null,
     role_name varchar(50) null
 );
 
 create table role_privilege
 (
-    id           int     not null primary key,
+    id           int      not null primary key,
     role_id      tinyint  not null,
     privilege_id smallint not null
 );
@@ -96,8 +102,8 @@ create table borrow_info
     user_name   varchar(50) not null,
     book_id     int         not null,
     book_name   varchar(50) not null,
-    borrow_time timestamp  not null,
-    deadline    timestamp  not null,
+    borrow_time bigint      not null,
+    deadline    bigint      not null,
     primary key (book_id, user_id),
     constraint borrow_info_book_null_fk
         foreign key (book_id) references book (book_id),
@@ -107,14 +113,14 @@ create table borrow_info
 
 create table user_log
 (
-    log_id      int      null,
-    user_id     smallint null,
-    role_id     tinyint  null,
-    action_time timestamp  null,
-    action_type tinyint  null,
-    description varchar(200)      null,
-    user_name   varchar(50)       null,
-    role_name   varchar(50)       null
+    log_id      int          null,
+    user_id     smallint     null,
+    role_id     tinyint      null,
+    action_time timestamp    null,
+    action_type tinyint      null,
+    description varchar(200) null,
+    user_name   varchar(50)  null,
+    role_name   varchar(50)  null
 );
 
 create table user_role
@@ -127,32 +133,27 @@ create table user_role
 -- user_role
 
 insert into user_role
-values
-    (1, 1, 1),
-    (2, 2, 2);
+values (1, 1, 1),
+       (2, 2, 2);
 
 -- role
 
 insert into r_role
-values
-    (1, '管理员（全部操作）'),
-    (2, '普通用户（仅查看）');
+values (1, '管理员（全部操作）'),
+       (2, '普通用户（仅查看）');
 
 -- role_privilege
 
 insert into role_privilege
-values
-    (1, 1, 1),
-    (2, 1, 2),
-    (3, 2, 1);
+values (1, 1, 1),
+       (2, 1, 2),
+       (3, 2, 1);
 
 insert into u_user
-values
-    (1, 'admin', '$2a$10$M9n/9O5qXuqtjup4jm3Oz.qj393pQ2eR/fS6/Amkf/MqbxgmjE9/K'),
-    (2, 'bob', '$2a$10$FRuiYpdeF.AY98Q0GVJuE.hnYWc/a0K7aJN1LGXDHc.0ewyUSc7I6');
+values (1, 'admin', '$2a$10$M9n/9O5qXuqtjup4jm3Oz.qj393pQ2eR/fS6/Amkf/MqbxgmjE9/K'),
+       (2, 'bob', '$2a$10$FRuiYpdeF.AY98Q0GVJuE.hnYWc/a0K7aJN1LGXDHc.0ewyUSc7I6');
 
 
 insert into privilege
-values
-    (1, '查看数据'),
-    (2, '增删改数据');
+values (1, '查看数据'),
+       (2, '增删改数据');

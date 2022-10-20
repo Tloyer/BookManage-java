@@ -13,7 +13,5 @@ import java.util.List;
  * 2022/10/13 15:32
  */
 public interface BorrowInfoMapper extends BaseMapper<BorrowInfo> {
-
-    List<BorrowInfo> searchByPage(@Param("pageNum") Integer pageNum, @Param("pageSize") Integer pageSize,
-                            @Param("userName") String userName, @Param("bookName") String bookName);
+    Boolean canBorrow(@Param("bookId") Integer bookId);
 }

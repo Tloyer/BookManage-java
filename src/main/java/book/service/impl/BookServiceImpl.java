@@ -1,6 +1,7 @@
 package book.service.impl;
 
 import book.entity.Book;
+import book.entity.BorrowInfo;
 import book.exception.BasicException;
 import book.mapper.BookMapper;
 import book.service.BookService;
@@ -12,6 +13,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -63,6 +65,11 @@ public class BookServiceImpl extends ServiceImpl<BookMapper, Book> implements Bo
         return this.updateById(reqData);
     }
 
+    @Override
+    public boolean subOne(Integer bookId) {
+        return this.baseMapper.subOne(bookId);
+    }
+
     private PageRspData<Book> pageQuery(Integer pageNum, Integer pageSize) {
         IPage<Book> page = new Page<>(pageNum, pageSize);
         // 分页
@@ -70,13 +77,5 @@ public class BookServiceImpl extends ServiceImpl<BookMapper, Book> implements Bo
         // 构造结果
         List<Book> records = page.getRecords();
         return PageRspData.of(records, page.getTotal(), page.getPages());
-    }
-
-    @Override
-    public void borrowBook(Integer id) {
-        Boolean flag = baseMapper.borrowBook(id);
-        if (!flag) {
-            throw new BasicException(400, "借书失败");
-        }
     }
 }
