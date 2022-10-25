@@ -5,9 +5,9 @@ c book
 
 create schema book owner fantastic;
 
---以上在命令行中以omm用户执行
+-- 以上在命令行中以omm用户执行
 
---以下在data studio中以fantastic用户执行
+-- 以下在data studio中以fantastic用户执行
 set search_path to book;
 
 create table SPRING_SESSION
@@ -64,18 +64,6 @@ create table book_detail
         foreign key (book_id) references book (book_id)
 );
 
-create table privilege
-(
-    privilege_id   smallint    null,
-    privilege_name varchar(50) null
-);
-
-create table r_role
-(
-    role_id   tinyint     null,
-    role_name varchar(50) null
-);
-
 create table role_privilege
 (
     id           int      not null primary key,
@@ -83,7 +71,7 @@ create table role_privilege
     privilege_id smallint not null
 );
 
---表名称不能为user
+-- 表名称不能为user
 
 create table u_user
 (
@@ -137,11 +125,28 @@ values (1, 1, 1),
        (2, 2, 2);
 
 -- role
+create table r_role
+(
+    role_id   tinyint     primary key,
+    role_name varchar(50) null
+);
 
 insert into r_role
-values (1, '管理员（全部操作）'),
-       (2, '普通用户（仅查看）');
+values
+    (1, '管理员（全部操作）'),
+    (2, '普通用户（仅查看）');
 
+-- privilege
+create table privilege
+(
+    privilege_id   smallint    primary key,
+    privilege_name varchar(50) null
+);
+
+insert into privilege
+values
+    (1, '查看数据'),
+    (2, '增删改数据');
 -- role_privilege
 
 insert into role_privilege
@@ -153,7 +158,14 @@ insert into u_user
 values (1, 'admin', '$2a$10$M9n/9O5qXuqtjup4jm3Oz.qj393pQ2eR/fS6/Amkf/MqbxgmjE9/K'),
        (2, 'bob', '$2a$10$FRuiYpdeF.AY98Q0GVJuE.hnYWc/a0K7aJN1LGXDHc.0ewyUSc7I6');
 
+alter table user_role add foreign key (user_id)
+    references u_user(user_id);
 
-insert into privilege
-values (1, '查看数据'),
-       (2, '增删改数据');
+alter table user_role add foreign key (role_id)
+    references r_role(role_id);
+
+alter table role_privilege add foreign key (role_id)
+    references r_role(role_id);
+
+alter table role_privilege add foreign key (privilege_id)
+    references privilege(privilege_id);
