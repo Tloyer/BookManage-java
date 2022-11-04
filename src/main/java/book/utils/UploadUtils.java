@@ -32,11 +32,6 @@ public class UploadUtils {
 
     /**
      * 图片上传，返回 classpath下的路径 如： /static/img/db1/organ/20211003_xxxx.jpg
-     *
-     * @param file
-     * @param path
-     * @return
-     * @throws IOException
      */
     public static String uploadPicture(MultipartFile file, String path) {
         return upload(file, FILE_TYPE_IMG, path);
@@ -44,9 +39,6 @@ public class UploadUtils {
 
     /**
      * 视频上传，返回 classpath下的路径 如： /static/video/db1/xxx/20211003_xxxx.mp4
-     * @param file
-     * @param path
-     * @return
      */
     public static String uploadVideo(MultipartFile file, String path) {
         return upload(file, FILE_TYPE_VIDEO, path);
@@ -55,10 +47,6 @@ public class UploadUtils {
 
     /**
      * 文件上传
-     * @param file 文件
-     * @param fileType 文件类型
-     * @param path 文件路径 /xx/xx/
-     * @return
      */
     private static String upload(MultipartFile file, String fileType, String path) {
         String fileName = file.getOriginalFilename();
@@ -93,10 +81,6 @@ public class UploadUtils {
 
     /**
      * 文件删除，
-     *
-     * @param path 如  /static/img/db1/organ/2021_10_12_ssss.jpg
-     * @return
-     * @throws IOException
      */
     public static void removeFile(String path) {
         try {

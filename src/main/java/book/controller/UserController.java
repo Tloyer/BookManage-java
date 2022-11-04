@@ -85,7 +85,7 @@ public class UserController {
         return ResultBody.success("已退出登录！");
     }
 
-    @PostMapping("/change-pw")
+    @PostMapping("/change-pwd")
     public ResultBody changePassword(@RequestBody UserReqData vo, HttpSession session) {
         if (!UserUtils.isLoggedIn(session)) {
             return ResultBody.error(HttpStatus.BAD_REQUEST.value(), "未登录");

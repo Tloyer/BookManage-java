@@ -10,6 +10,7 @@ import book.vo.BookSearchReqData;
 import book.vo.PageRspData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * @author fanhongtao
@@ -87,5 +88,18 @@ public class BookController {
             throw new BasicException(400, "修改图书失败");
         }
         return ResultBody.success("修改图书成功");
+    }
+
+    /**
+     * 批量上传csv
+     */
+    @PostMapping("/upload")
+    public ResultBody upload(@RequestPart MultipartFile file) {
+        UserUtils.checkPrivilege(Privilege.PRI_EDIT, "用户无权限修改数据");
+        if (file == null) {
+            throw new BasicException(400, "未上传文件");
+        }
+        int num = bookService.addAll(file);
+        return ResultBody.success("上传" + num + "本书");
     }
 }

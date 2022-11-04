@@ -6,6 +6,7 @@ import book.exception.BasicException;
 import book.mapper.BorrowInfoMapper;
 import book.service.BookService;
 import book.service.BorrowInfoService;
+import book.service.UserService;
 import book.vo.BookSearchReqData;
 import book.vo.BorrowInfoSearchData;
 import book.vo.PageRspData;
@@ -32,6 +33,9 @@ public class BorrowInfoServiceImpl extends ServiceImpl<BorrowInfoMapper, BorrowI
     @Autowired
     BookService bookService;
 
+    @Autowired
+    UserService userService;
+
     @Override
     public PageRspData<BorrowInfo> listByPage(Integer pageNum, Integer pageSize) {
         return pageQuery(pageNum, pageSize, null);
@@ -57,7 +61,7 @@ public class BorrowInfoServiceImpl extends ServiceImpl<BorrowInfoMapper, BorrowI
     }
 
     @Override
-    public boolean borrowBook(Integer bookId, Integer userId, String userName) {
+    public boolean borrowBook(Integer bookId, Integer userId) {
         Boolean canBorrow = baseMapper.canBorrow(bookId);
         if (!canBorrow) {
             throw new BasicException(400, "图书数量不足");
@@ -71,6 +75,7 @@ public class BorrowInfoServiceImpl extends ServiceImpl<BorrowInfoMapper, BorrowI
         }
         borrowInfo = new BorrowInfo();
         borrowInfo.setUserId(userId);
+        String userName = userService.getById(userId).getUserName();
         borrowInfo.setUserName(userName);
         borrowInfo.setBookId(bookId);
         String bookName = bookService.getById(bookId).getBookName();

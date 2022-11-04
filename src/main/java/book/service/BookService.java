@@ -4,6 +4,7 @@ import book.entity.Book;
 import book.vo.BookSearchReqData;
 import book.vo.PageRspData;
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * @author fanhongtao
@@ -20,4 +21,6 @@ public interface BookService extends IService<Book> {
     boolean updateBook(Book reqData);
 
     boolean subOne(Integer bookId);
+
+    int addAll(MultipartFile file);
 }

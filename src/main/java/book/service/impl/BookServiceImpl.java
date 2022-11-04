@@ -16,7 +16,11 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.List;
 import java.util.Objects;
 
@@ -68,6 +72,39 @@ public class BookServiceImpl extends ServiceImpl<BookMapper, Book> implements Bo
     @Override
     public boolean subOne(Integer bookId) {
         return this.baseMapper.subOne(bookId);
+    }
+
+    @Override
+    @Transactional
+    public int addAll(MultipartFile file) {
+        int num = 0;
+        Book book = new Book();
+        try {
+            InputStream bb = file.getInputStream();
+            InputStreamReader streamReader = new InputStreamReader(bb);
+            BufferedReader reader = new BufferedReader(streamReader);
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] temp = line.split(",");
+                if (temp.length == 0) {
+                    break;
+                }
+                book.setBookName(temp[0].trim());
+                book.setBookAuthor(temp[1].trim());
+                book.setISBN(temp[2].trim());
+                book.setStock(Integer.parseInt(temp[3].trim()));
+                if (add(book)) {
+                    num++;
+                } else {
+                    throw new BasicException(400, "上传失败");
+                }
+            }
+            reader.close();
+            bb.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return num;
     }
 
     private PageRspData<Book> pageQuery(Integer pageNum, Integer pageSize) {

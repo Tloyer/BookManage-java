@@ -62,13 +62,12 @@ public class BorrowInfoController {
     }
 
     //借一本书
-    @PostMapping("/{id}")
-    public ResultBody borrowBook(@PathVariable("id") Integer id, HttpSession session) {
+    @PostMapping
+    public ResultBody borrowBook(@RequestBody BorrowInfoData borrowInfo) {
         UserUtils.checkPrivilege(Privilege.PRI_READ, "用户借书权限");
-        UserStatus userStatus = (UserStatus) session.getAttribute(UserUtils.sessionStatusKey);
-        Integer userId = userStatus.getUserId();
-        String userName = userStatus.getUserName();
-        boolean flag = borrowInfoService.borrowBook(id, userId, userName);
+        Integer userId = borrowInfo.getUserId();
+        Integer bookId = borrowInfo.getBookId();
+        boolean flag = borrowInfoService.borrowBook(bookId, userId);
         if (!flag) {
             throw new BasicException(400, "借书失败");
         }

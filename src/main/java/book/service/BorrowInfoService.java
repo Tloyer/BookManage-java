@@ -18,7 +18,7 @@ public interface BorrowInfoService extends IService<BorrowInfo> {
 
     PageRspData<BorrowInfo> searchByPage(Integer pageNum, Integer pageSize, BorrowInfoSearchData query);
 
-    boolean borrowBook(Integer bookId, Integer userId, String userName);
+    boolean borrowBook(Integer bookId, Integer userId);
 
     boolean deleteOne(Integer userId, Integer bookId);
 }
