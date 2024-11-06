@@ -1,9 +1,10 @@
-create database book owner fantastic;
+create database book owner tloy;
 
 \
 c book
 
-create schema book owner fantastic;
+CREATE SCHEMA book;
+
 
 -- 以上在命令行中以omm用户执行
 
@@ -135,9 +136,7 @@ alter table user_role
     add foreign key (user_id)
         references u_user (user_id);
 
-alter table user_role
-    add foreign key (role_id)
-        references r_role (role_id);
+
 
 -- role
 create table r_role
@@ -145,6 +144,10 @@ create table r_role
     role_id   tinyint primary key,
     role_name varchar(50) null
 );
+
+alter table user_role
+    add foreign key (role_id)
+        references r_role (role_id);
 
 insert into r_role
 values

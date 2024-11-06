@@ -3,7 +3,7 @@ spring:
   datasource:
     driver-class-name: org.postgresql.Driver
     # url: jdbc:postgresql://192.168.231.131:26000/book?currentSchema=book
-    url: jdbc:postgresql://124.71.227.20:7654/book?currentSchema=book
-    username: fantastic
-    password: SIsi04200521
+    url: jdbc:postgresql://113.44.151.111:26000/book?currentSchema=book
+    username: tloy
+    password: 20010521Yjc
     # password: SIsi0521
