@@ -13,7 +13,7 @@ import book.service.AIManageService;
 public class AIManageServiceImpl implements AIManageService{
 
         private final String API_URL = "https://open.bigmodel.cn/api/paas/v4/chat/completions"; // GLM API的地址
-        private final String API_KEY = "e99f329a85d8f8cc1eba4bc5680e9510.fuy0vyrmS7ewoLoY"; // 替换为你的API Key
+        private final String API_KEY = ""; // 替换为API Key
 
         @Override
         public String getChatResponse(String userInput) {
